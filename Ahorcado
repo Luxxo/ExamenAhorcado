@@ -1,0 +1,199 @@
+import java.util.*;
+
+
+	
+public class Ahorcado {
+	Scanner S = new Scanner (System.in);
+	
+	public void Woof(){
+		String palabraGen = "pan";
+		
+		System.out.println("Bienvendido al juego del ahorcado");
+		List<String> lvl1=new ArrayList<String>();
+			lvl1.add("pan");
+			lvl1.add("sal");
+			lvl1.add("mar");
+		List<String> lvl2=new ArrayList<String>();
+			lvl2.add("doge");
+			lvl2.add("pato");
+			lvl2.add("mono");
+		List<String> lvl3=new ArrayList<String>();
+			lvl3.add("color");
+			lvl3.add("perro");
+			lvl3.add("raton");
+			
+			Random randomGenerator = new Random();
+		      int palabra = randomGenerator.nextInt(2); //Adicion extra, genera la palabra a adivinar dependiendo del nivel seleccionado
+		
+		 System.out.println("Elija la dificultad");
+			int lvl = S.nextInt();
+			int longitud = 3;
+		switch(lvl){
+		case 1:
+			palabraGen = IteradorDeLvl(lvl1, palabra);
+			longitud = 3;
+			//System.out.println("Pasó 1 ");
+			//System.out.println(palabraGen);
+			break;
+		case 2:
+			palabraGen = IteradorDeLvl(lvl2, palabra);
+			longitud = 4;
+			//System.out.println("Pasó 2 ");
+			//System.out.println(palabraGen);
+			break;
+		case 3:
+			palabraGen = IteradorDeLvl(lvl3, palabra);
+			longitud = 5;
+			//System.out.println("Pasó 3 ");
+			//System.out.println(palabraGen);
+			break;
+		}
+		
+		char palabramisteriosa[] = new char[longitud];
+		int contador = 0;
+		
+		while(contador < palabraGen.length())
+		{
+			palabramisteriosa[contador] = palabraGen.charAt(contador);
+			//System.out.println(palabraGen.charAt(contador));
+			//System.out.println(palabramisteriosa[contador]);
+			contador++;
+			//System.out.println(palabramisteriosa.toString());
+		}
+		
+		juego(palabramisteriosa, longitud);
+		
+	}
+	
+	public boolean verify(char letra, char[] palabramisteriosa, int longitud)
+	{
+		int cont =0;
+		boolean verificacion  = false;
+		while(cont != longitud)
+		{
+			if(letra == palabramisteriosa[cont])
+			{
+				verificacion = true;
+			}
+			
+			cont++;
+		}
+		
+		return verificacion;
+	}
+	
+	 public String IteradorDeLvl(List<String>lvl, int palabra){
+		 Iterator<String> itr = lvl.iterator();
+		 int contador = 0;
+		 String palabraGenerada = "Gol";
+		 while(itr.hasNext()) {
+			 Object element = itr.next();
+			 if(contador == palabra)
+			 {
+				 palabraGenerada = element.toString();
+				 }
+			 contador++;
+			 }
+		 return palabraGenerada;
+			 
+	 } 
+	   
+	public void juego(char[] palabramisteriosa, int longitud)
+	{
+		//System.out.println("Entro");
+		int vidas = 5;
+		int correctas = 0;
+		char[] palabraimpresa = new char[longitud];
+		int contador = 0;
+		//System.out.println(longitud);
+		while(contador != longitud)
+		{
+			palabraimpresa[contador] = '-';
+			contador++;
+		}
+		boolean chucho = false;
+		while(chucho != true)
+		{
+			System.out.println("Ingrese letra a adivinar ");
+
+			String comprobante = new String(palabraimpresa);
+			System.out.println(comprobante);
+			
+			String letrau = S.next();
+			char letraz = letrau.charAt(0);
+			boolean chunche = verify(letraz, palabramisteriosa, longitud);
+			
+			int verificador=0;
+			boolean chuchobooleano = true;
+			while(verificador < longitud)
+			{
+				if(palabraimpresa[verificador] == letraz)
+				{
+					chunche= false;
+					System.out.println("Ya ingreso esa letra");
+				}
+				verificador++;
+			}
+			
+			if(chunche)
+			{
+				System.out.println("correcto");
+				
+				if(chuchobooleano)
+				{
+					int contadorsito = 0;
+					while(contadorsito < longitud)
+					{
+						if(letraz == palabramisteriosa[contadorsito])
+						{
+							palabraimpresa[contadorsito] = letraz;
+							//if(correctas == (longitud - 1))
+							System.out.println("Correctas =" + correctas);
+							//if(palabraimpresa == palabramisteriosa)
+							if(correctas == (longitud - 1))
+							{
+
+								String comprobante2 = new String(palabraimpresa);
+								System.out.println(comprobante2);
+								System.out.println("Felicidades, has ganado GGWP.");
+								chucho = true;
+							}
+						}
+						contadorsito++;
+						
+					
+					}
+					correctas++;
+				}
+				/*int cont2 = 0;
+				while(cont2 < longitud)
+				{
+					System.out.println(palabraimpresa[cont2]);
+					cont2++;
+				}*/
+			}
+			else
+			{
+				vidas--;
+				System.out.println("Incorrecto.");
+				System.out.println("Extremidades Restantes: " + vidas);
+				if(vidas == 0)
+				{
+					System.out.println("Te moriste. git gud. or get #Rekt");
+					chucho = true;
+				}
+			}
+		}
+	}    
+                 
+	public static void main(String[] args) {
+		Ahorcado hola = new Ahorcado();
+		hola.Woof();
+
+	}
+}
+//ggwp huehuehuehuehuehue
+
+
+	
+
